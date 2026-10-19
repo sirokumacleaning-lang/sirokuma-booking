@@ -212,6 +212,13 @@ document.getElementById("footer").innerHTML =
   `${CONFIG.SHOP_NAME} ☎ <a href="tel:${CONFIG.TEL}">${CONFIG.TEL}</a><br>© ${CONFIG.COMPANY}`;
 render();
 
+// 受付番号: SK-日付(yyMMdd)-ランダム4桁（例: SK-261019-4821）
+function receiptNo() {
+  const d = new Date(Date.now() + 9 * 3600000).toISOString(); // 日本時間
+  const ymd = d.slice(2, 4) + d.slice(5, 7) + d.slice(8, 10);
+  return `SK-${ymd}-${String(Math.floor(Math.random() * 10000)).padStart(4, "0")}`;
+}
+
 const form = document.getElementById("form"), msg = document.getElementById("msg");
 form.addEventListener("submit", async e => {
   e.preventDefault();
@@ -232,6 +239,7 @@ form.addEventListener("submit", async e => {
   data.items = all.filter(i => counts[i.key] > 0).map(i => `${i.name} ×${counts[i.key]}`).join("、");
   data.total = total();
   data.shop = CONFIG.SHOP_NAME;
+  data.receipt = receiptNo();
   const btn = document.getElementById("submit");
   btn.disabled = true; btn.textContent = "送信中…";
   try {
@@ -240,7 +248,7 @@ form.addEventListener("submit", async e => {
       headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) });
     form.reset(); Object.keys(counts).forEach(k => counts[k] = 0); counts.units = 1; render();
     msg.className = "msg ok";
-    msg.textContent = "ご予約を受け付けました。確認メールをお送りしましたのでご確認ください。";
+    msg.textContent = `ご予約を受け付けました（受付番号：${data.receipt}）。確認メールをお送りしましたのでご確認ください。`;
   } catch (err) {
     msg.className = "msg ng";
     msg.textContent = `送信に失敗しました。お手数ですがお電話（${CONFIG.TEL}）でご連絡ください。`;
