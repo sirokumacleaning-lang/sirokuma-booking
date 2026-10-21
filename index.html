@@ -187,7 +187,22 @@ function clampAll() {
 function total() {
   return [...CONFIG.UNITS, ...CONFIG.OPTIONS].reduce((s, i) => s + i.price * counts[i.key], 0);
 }
-function render() { clampAll(); document.getElementById("total").textContent = "¥" + yen(total()); }
+// 概算金額を今の表示額から新しい金額までカウントアップ/ダウン
+let shownTotal = 0, totalAnim = 0;
+function animateTotal(to) {
+  const el = document.getElementById("total");
+  clearTimeout(totalAnim);
+  if (document.hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) { shownTotal = to; el.textContent = "¥" + yen(to); return; }
+  const from = shownTotal, start = Date.now(), dur = 500;
+  const step = () => {
+    const p = Math.min((Date.now() - start) / dur, 1), ease = 1 - Math.pow(1 - p, 3);
+    shownTotal = Math.round(from + (to - from) * ease);
+    el.textContent = "¥" + yen(shownTotal);
+    if (p < 1) totalAnim = setTimeout(step, 16);
+  };
+  step();
+}
+function render() { clampAll(); animateTotal(total()); }
 document.addEventListener("click", e => {
   const b = e.target.closest("button[data-k]"); if (!b) return;
   const item = [...CONFIG.UNITS, ...CONFIG.OPTIONS].find(i => i.key === b.dataset.k);
