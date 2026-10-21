@@ -6,87 +6,189 @@
 <title>エアコンクリーニング ご予約フォーム</title>
 <style>
   :root {
-    --bg: #f4f8fb; --card: #fff; --text: #1f2d3a; --muted: #5d6b78;
-    --accent: #1d7fd6; --accent-dark: #135fa3; --line: #dbe4ec; --req: #e2493b; --soft: #eaf4fd;
+    --bg: #f2f7fb; --card: #fff; --text: #17293a; --muted: #5b6b7a;
+    --accent: #1677d2; --accent-dark: #0f5aa0; --navy: #0d3b66; --line: #d9e4ee;
+    --req: #e2493b; --soft: #e9f3fc; --ok: #14a06b; --warm: #ff8a3d;
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body { margin: 0; background: var(--bg); color: var(--text);
     font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif; line-height: 1.7; }
-  .wrap { max-width: 640px; margin: 0 auto; padding: 16px; }
-  header { text-align: center; padding: 24px 0 8px; }
-  .badge { display: inline-block; background: var(--accent); color: #fff; font-size: 12px;
-    padding: 2px 12px; border-radius: 99px; }
-  h1 { font-size: 22px; margin: 8px 0; }
-  .lead { color: var(--muted); font-size: 14px; }
-  section { background: var(--card); border-radius: 14px; padding: 20px; margin: 16px 0;
-    box-shadow: 0 1px 4px rgba(0,0,0,.06); }
-  h2 { font-size: 17px; margin: 0 0 12px; border-left: 4px solid var(--accent); padding-left: 10px; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 16px 120px; }
+
+  /* ヒーロー */
+  .hero { background: linear-gradient(160deg, var(--navy) 0%, var(--accent) 100%); color: #fff;
+    padding: 28px 20px 72px; text-align: center; position: relative; overflow: hidden; }
+  .hero::after { content: ""; position: absolute; left: -10%; right: -10%; bottom: -60px; height: 110px;
+    background: var(--bg); border-radius: 50% 50% 0 0; }
+  .hero .shop { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700;
+    background: rgba(255,255,255,.16); padding: 4px 14px; border-radius: 99px; }
+  .badge { display: inline-block; margin-left: 6px; background: var(--warm); color: #fff; font-size: 12px;
+    padding: 2px 10px; border-radius: 99px; }
+  .hero h1 { font-size: 26px; line-height: 1.4; margin: 14px 0 6px; letter-spacing: .02em; }
+  .hero .lead { margin: 0 auto; max-width: 30em; font-size: 14px; opacity: .92; }
+  .price-tag { display: inline-block; margin-top: 14px; background: #fff; color: var(--navy);
+    border-radius: 14px; padding: 8px 18px; font-weight: 700; box-shadow: 0 6px 18px rgba(0,0,0,.18); }
+  .price-tag b { font-size: 30px; color: var(--accent-dark); letter-spacing: .01em; }
+  .price-tag small { font-size: 12px; color: var(--muted); font-weight: 400; }
+  .hero-cta { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 18px;
+    position: relative; z-index: 1; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 12px 20px;
+    border-radius: 99px; font-weight: 700; font-size: 15px; text-decoration: none; border: 0; cursor: pointer; }
+  .btn-main { background: var(--warm); color: #fff; box-shadow: 0 6px 16px rgba(255,138,61,.45); }
+  .btn-ghost { background: rgba(255,255,255,.14); color: #fff; border: 1px solid rgba(255,255,255,.5); }
+
+  /* 安心ポイント */
+  .points { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: -40px 0 8px;
+    position: relative; z-index: 1; }
+  .point { background: var(--card); border-radius: 14px; padding: 12px; display: flex; gap: 10px;
+    align-items: center; box-shadow: 0 4px 14px rgba(13,59,102,.08); font-size: 13px; line-height: 1.45; }
+  .point .ic { font-size: 22px; flex-shrink: 0; }
+  .point b { display: block; font-size: 14px; color: var(--navy); }
+
+  /* ステップ */
+  .steps { display: flex; justify-content: space-between; gap: 6px; margin: 20px 0 4px; padding: 0; list-style: none; }
+  .steps li { flex: 1; text-align: center; font-size: 12px; color: var(--muted); }
+  .steps li span { display: flex; width: 30px; height: 30px; margin: 0 auto 4px; border-radius: 50%;
+    align-items: center; justify-content: center; background: var(--soft); color: var(--accent-dark); font-weight: 700; }
+
+  section { background: var(--card); border-radius: 18px; padding: 22px 18px; margin: 16px 0;
+    box-shadow: 0 4px 14px rgba(13,59,102,.06); scroll-margin-top: 12px; }
+  h2 { font-size: 18px; margin: 0 0 4px; display: flex; align-items: center; gap: 10px; }
+  h2 .num { display: inline-flex; width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
+    color: #fff; font-size: 15px; align-items: center; justify-content: center; flex-shrink: 0; }
+  .h2-sub { margin: 0 0 8px 38px; font-size: 13px; color: var(--muted); }
+  .group-title { margin: 18px 0 4px; font-weight: 700; font-size: 15px; color: var(--navy); }
+
   .row { display: flex; align-items: center; justify-content: space-between; gap: 12px;
     padding: 12px 0; border-bottom: 1px solid var(--line); }
   .row:last-child { border-bottom: 0; }
-  .row .name { font-weight: 600; }
+  .row .name { font-weight: 700; }
   .row .sub { display: block; font-size: 12px; color: var(--muted); font-weight: 400; }
-  .stepper { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-  .stepper button { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--accent);
-    background: #fff; color: var(--accent); font-size: 18px; cursor: pointer; }
-  .stepper span { width: 28px; text-align: center; font-weight: 700; }
-  .set { background: var(--soft); border-radius: 10px; padding: 0 12px; margin-bottom: 4px; }
-  .total { background: var(--soft); border-radius: 12px; padding: 16px; text-align: center; margin-top: 12px; }
-  .total strong { font-size: 28px; color: var(--accent-dark); }
+  .stepper { display: flex; align-items: center; gap: 4px; flex-shrink: 0; background: var(--soft);
+    border-radius: 99px; padding: 3px; }
+  .stepper button { width: 38px; height: 38px; border-radius: 50%; border: 0; background: #fff;
+    color: var(--accent); font-size: 20px; font-weight: 700; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,.12);
+    transition: transform .1s; }
+  .stepper button:active { transform: scale(.9); }
+  .stepper span { width: 28px; text-align: center; font-weight: 700; font-size: 17px; }
+  .set { position: relative; background: linear-gradient(135deg, #fff7ef, #fff); border: 2px solid var(--warm);
+    border-radius: 14px; padding: 0 12px; margin: 10px 0 6px; }
+  .set::before { content: "おすすめ・2,500円おトク"; position: absolute; top: -11px; left: 12px;
+    background: var(--warm); color: #fff; font-size: 11px; font-weight: 700; padding: 1px 10px; border-radius: 99px; }
+
+  .total { background: linear-gradient(135deg, var(--navy), var(--accent)); color: #fff; border-radius: 16px;
+    padding: 16px; text-align: center; margin-top: 16px; }
+  .total .lbl { font-size: 13px; opacity: .9; }
+  .total strong { display: block; font-size: 34px; line-height: 1.3; letter-spacing: .01em; }
+  .total .tax { font-size: 12px; opacity: .85; }
+  .assure { display: flex; gap: 8px; align-items: flex-start; margin: 12px 0 0; padding: 10px 12px;
+    background: #ecf8f2; border-radius: 12px; font-size: 13px; color: #1d5c41; }
+
   .note { font-size: 13px; color: var(--muted); }
-  label.f { display: block; font-weight: 600; margin: 16px 0 6px; }
+  label.f { display: block; font-weight: 700; margin: 18px 0 6px; font-size: 15px; }
   .req, .opt { font-size: 11px; color: #fff; background: var(--req); border-radius: 4px; padding: 1px 6px;
-    margin-left: 6px; font-weight: 400; }
+    margin-left: 6px; font-weight: 400; vertical-align: 2px; }
   .opt { background: #8c99a5; }
   input[type=text], input[type=tel], input[type=email], input[type=date], select, textarea {
-    width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; font-size: 16px;
-    background: #fff; color: var(--text); font-family: inherit; }
+    width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 12px; font-size: 16px;
+    background: #fbfdff; color: var(--text); font-family: inherit; transition: border-color .15s, box-shadow .15s; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(22,119,210,.15); background: #fff; }
   textarea { min-height: 90px; }
-  .choices label { display: block; padding: 6px 0; }
-  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  button.submit { width: 100%; padding: 16px; margin-top: 24px; font-size: 17px; font-weight: 700;
-    background: var(--accent); color: #fff; border: 0; border-radius: 12px; cursor: pointer; }
+  .choices { display: flex; flex-wrap: wrap; gap: 8px; }
+  .choices label { display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border: 1.5px solid var(--line);
+    border-radius: 99px; background: #fff; cursor: pointer; font-size: 14px; transition: all .15s; }
+  .choices label:has(input:checked) { border-color: var(--accent); background: var(--soft); color: var(--accent-dark); font-weight: 700; }
+  .choices input { accent-color: var(--accent); margin: 0; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 4px 12px 12px;
+    background: #f7fafd; border-radius: 14px; margin-top: 10px; }
+  .pair label.f { margin-top: 10px; font-size: 13px; }
+
+  button.submit { width: 100%; padding: 18px; margin-top: 26px; font-size: 18px; font-weight: 700;
+    background: var(--warm); color: #fff; border: 0; border-radius: 16px; cursor: pointer;
+    box-shadow: 0 8px 20px rgba(255,138,61,.4); }
   button.submit:disabled { opacity: .6; cursor: wait; }
-  .msg { margin-top: 12px; padding: 12px; border-radius: 8px; display: none; }
-  .msg.ok { display: block; background: #e5f6ea; color: #1d6b35; }
+  .msg { margin-top: 12px; padding: 12px; border-radius: 12px; display: none; }
+  .msg.ok { display: block; background: #e5f6ea; color: #1d6b35; font-weight: 700; }
   .msg.ng { display: block; background: #fdeaea; color: #a33a3a; }
-  footer { text-align: center; font-size: 13px; color: var(--muted); padding: 24px 0 40px; }
-  @media (max-width: 420px) { .pair { grid-template-columns: 1fr; } }
+  .tel-box { text-align: center; margin: 16px 0; padding: 16px; background: var(--card); border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(13,59,102,.06); font-size: 14px; }
+  .tel-box a { display: block; font-size: 24px; font-weight: 700; color: var(--accent-dark); text-decoration: none; }
+  footer { text-align: center; font-size: 13px; color: var(--muted); padding: 16px 0; }
+
+  /* 下に固定する金額バー */
+  .sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; background: rgba(255,255,255,.97);
+    box-shadow: 0 -4px 16px rgba(13,59,102,.12); padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    transition: transform .25s; }
+  .sticky.hide { transform: translateY(110%); }
+  .sticky .in { max-width: 640px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .sticky .lbl { font-size: 11px; color: var(--muted); line-height: 1.2; }
+  .sticky strong { display: block; font-size: 22px; color: var(--accent-dark); line-height: 1.2; }
+  .sticky .btn { padding: 12px 22px; }
+
+  @media (max-width: 420px) {
+    .hero h1 { font-size: 23px; }
+    .points { grid-template-columns: 1fr 1fr; }
+    .pair { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
 </style>
 </head>
 <body>
+<div class="hero">
+  <span class="shop"><span aria-hidden="true">🐻‍❄️</span><span id="shopName"></span><span class="badge" id="badge"></span></span>
+  <h1>エアコンクリーニング<br>かんたんWeb予約</h1>
+  <p class="lead">台数を選ぶとその場で料金がわかります。<br>ご予約後、担当者から日程確定のご連絡をします。</p>
+  <div class="price-tag">壁掛けエアコン <b id="heroPrice"></b>円<small>／台（税込）</small></div>
+  <div class="hero-cta">
+    <a class="btn btn-main" href="#step1">料金を見てみる ↓</a>
+    <a class="btn btn-ghost" id="heroTel" href="#">📞 電話で相談</a>
+  </div>
+</div>
+
 <div class="wrap">
-  <header>
-    <span class="badge" id="badge"></span>
-    <h1>エアコンクリーニング ご予約フォーム</h1>
-    <p class="lead">台数とオプションを選ぶと概算が出ます。送信後すぐに確認メールが届き、作業日は担当者よりご連絡のうえ確定します。</p>
-  </header>
+  <div class="points">
+    <div class="point"><span class="ic">💴</span><div><b>追加料金なし</b>汚れによる追加料金は基本発生しません</div></div>
+    <div class="point"><span class="ic">🌅</span><div><b>早朝6時から</b>お仕事前の時間帯もご相談OK</div></div>
+    <div class="point"><span class="ic">📱</span><div><b>当日払いOK</b>現金・PayPayでお支払い</div></div>
+    <div class="point"><span class="ic">🧽</span><div><b>まとめて依頼</b>お風呂・レンジフード等も相談可</div></div>
+  </div>
+
+  <ol class="steps">
+    <li><span>1</span>台数を選ぶ</li>
+    <li><span>2</span>情報を入力</li>
+    <li><span>3</span>日程確定のご連絡</li>
+  </ol>
 
   <form id="form" novalidate>
-    <section>
-      <h2>1. 台数とオプションを選ぶ</h2>
+    <section id="step1">
+      <h2><span class="num">1</span>台数とオプションを選ぶ</h2>
+      <p class="h2-sub">＋／−で台数を選ぶと、概算金額がすぐ出ます。</p>
       <div id="units"></div>
-      <p class="name" style="margin:16px 0 4px">オプション（台数分お選びください）</p>
+      <p class="group-title">オプション <span class="note">（台数分お選びください）</span></p>
       <div id="options"></div>
       <div class="total">
-        💰 概算金額<br><strong id="total">¥0</strong> 円<br>
-        <span class="note">（税込・駐車場代別）</span>
+        <span class="lbl">概算金額</span>
+        <strong id="total">¥0</strong>
+        <span class="tax">税込・駐車場代別</span>
       </div>
-      <p class="note">💡 こちらは概算です。汚れによる追加料金は基本的に発生しません（特殊な事情がある場合は作業前に必ずご説明します）。</p>
+      <p class="assure"><span aria-hidden="true">✅</span><span>こちらは概算です。汚れによる追加料金は基本的に発生しません（特殊な事情がある場合は作業前に必ずご説明します）。</span></p>
     </section>
 
-    <section>
-      <h2>2. ご予約情報を入力する</h2>
+    <section id="step2">
+      <h2><span class="num">2</span>ご予約情報を入力する</h2>
+      <p class="h2-sub">入力はかんたん。送信後すぐに確認メールが届きます。</p>
       <label class="f">お名前<span class="req">必須</span></label>
-      <input type="text" name="name" required autocomplete="name">
+      <input type="text" name="name" required autocomplete="name" placeholder="例）白熊 太郎">
       <label class="f">電話番号<span class="req">必須</span></label>
-      <input type="tel" name="tel" required autocomplete="tel">
+      <input type="tel" name="tel" required autocomplete="tel" placeholder="例）090-1234-5678">
       <label class="f">メールアドレス<span class="req">必須</span> <span class="note">（確認メールの送付先）</span></label>
-      <input type="email" name="email" required autocomplete="email">
+      <input type="email" name="email" required autocomplete="email" placeholder="例）example@mail.com">
       <label class="f">エリア（都府県）<span class="req">必須</span></label>
       <select name="area" required id="area"><option value="">選択してください</option></select>
       <label class="f">郵便番号</label>
-      <input type="text" name="zip" inputmode="numeric" autocomplete="postal-code">
+      <input type="text" name="zip" inputmode="numeric" autocomplete="postal-code" placeholder="例）123-4567">
       <label class="f">ご住所<span class="req">必須</span></label>
       <input type="text" name="address" required autocomplete="street-address">
       <label class="f">お住まいのタイプ<span class="req">必須</span></label>
@@ -95,13 +197,14 @@
         <label><input type="radio" name="house" value="マンション・アパート"> マンション・アパート</label>
         <label><input type="radio" name="house" value="その他（店舗・事務所など）"> その他（店舗・事務所など）</label>
       </div>
+      <p class="group-title">作業日のご希望</p>
       <div id="dates"></div>
       <p class="note">※ご希望日での対応が難しい場合は、1〜2日以内に日程再調整のご連絡をいたします。</p>
 
       <label class="f">お支払い方法</label>
       <div class="choices">
-        <label><input type="radio" name="payment" value="作業当日（現金）" checked> 作業当日にお支払い（現金）</label>
-        <label><input type="radio" name="payment" value="作業当日（PayPay）"> 作業当日にお支払い（PayPay）</label>
+        <label><input type="radio" name="payment" value="作業当日（現金）" checked> 作業当日（現金）</label>
+        <label><input type="radio" name="payment" value="作業当日（PayPay）"> 作業当日（PayPay）</label>
       </div>
       <label class="f">駐車場 <span class="note">駐車場代は別途実費</span></label>
       <div class="choices">
@@ -110,7 +213,7 @@
         <label><input type="radio" name="parking" value="相談したい"> 相談したい</label>
       </div>
       <label class="f">エアコン以外のお掃除もご相談いただけます<span class="opt">任意</span></label>
-      <p class="note" style="margin:0">料金は担当者からご案内します</p>
+      <p class="note" style="margin:0 0 8px">料金は担当者からご案内します</p>
       <div class="choices">
         <label><input type="checkbox" name="other" value="お風呂・浴室"> お風呂・浴室</label>
         <label><input type="checkbox" name="other" value="キッチン・水回り"> キッチン・水回り</label>
@@ -119,7 +222,7 @@
         <label><input type="checkbox" name="other" value="その他"> その他（備考にご記入ください）</label>
       </div>
       <label class="f">ご要望・備考</label>
-      <textarea name="note"></textarea>
+      <textarea name="note" placeholder="気になる汚れ・設置場所・駐車場の場所など"></textarea>
       <label class="f">紹介コード<span class="opt">任意</span> <span class="note">ご家族やお知り合いから紹介された方</span></label>
       <input type="text" name="referral">
 
@@ -129,7 +232,15 @@
     </section>
   </form>
 
+  <div class="tel-box">お電話でのご予約・ご相談も受け付けています<a id="telLink" href="#"></a></div>
   <footer id="footer"></footer>
+</div>
+
+<div class="sticky" id="sticky">
+  <div class="in">
+    <div><span class="lbl">概算金額（税込）</span><strong id="stickyTotal">¥0</strong></div>
+    <a class="btn btn-main" id="stickyBtn" href="#step2">予約へ進む</a>
+  </div>
 </div>
 
 <script>
@@ -188,17 +299,18 @@ function clampAll() {
 function total() {
   return [...CONFIG.UNITS, ...CONFIG.OPTIONS].reduce((s, i) => s + i.price * counts[i.key], 0);
 }
-// 概算金額を今の表示額から新しい金額までカウントアップ/ダウン
+// 概算金額を今の表示額から新しい金額までカウントアップ/ダウン（下の固定バーも同じ金額）
 let shownTotal = 0, totalAnim = 0;
+const totalEls = [document.getElementById("total"), document.getElementById("stickyTotal")];
+const showTotal = n => totalEls.forEach(el => el.textContent = "¥" + yen(n));
 function animateTotal(to) {
-  const el = document.getElementById("total");
   clearTimeout(totalAnim);
-  if (document.hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) { shownTotal = to; el.textContent = "¥" + yen(to); return; }
+  if (document.hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) { shownTotal = to; showTotal(to); return; }
   const from = shownTotal, start = Date.now(), dur = 500;
   const step = () => {
     const p = Math.min((Date.now() - start) / dur, 1), ease = 1 - Math.pow(1 - p, 3);
     shownTotal = Math.round(from + (to - from) * ease);
-    el.textContent = "¥" + yen(shownTotal);
+    showTotal(shownTotal);
     if (p < 1) totalAnim = setTimeout(step, 16);
   };
   step();
@@ -224,10 +336,23 @@ document.getElementById("dates").innerHTML = ["第一","第二","第三"].map((n
 
 const badge = document.getElementById("badge");
 if (CONFIG.BADGE) badge.textContent = CONFIG.BADGE; else badge.remove();
+document.getElementById("shopName").textContent = CONFIG.SHOP_NAME;
+document.getElementById("heroPrice").textContent = yen(CONFIG.UNITS[0].price);
+["heroTel", "telLink"].forEach(id => document.getElementById(id).href = "tel:" + CONFIG.TEL);
+document.getElementById("telLink").textContent = "📞 " + CONFIG.TEL;
 document.title += "｜" + CONFIG.SHOP_NAME;
-document.getElementById("footer").innerHTML =
-  `${CONFIG.SHOP_NAME} ☎ <a href="tel:${CONFIG.TEL}">${CONFIG.TEL}</a><br>© ${CONFIG.COMPANY}`;
+document.getElementById("footer").innerHTML = `© ${CONFIG.COMPANY}`;
 render();
+
+// 予約ボタンが画面に見えている間は下の固定バーを隠す
+const sticky = document.getElementById("sticky"), submitBtn = document.getElementById("submit");
+function updateSticky() {
+  const r = submitBtn.getBoundingClientRect();
+  sticky.classList.toggle("hide", r.top < innerHeight && r.bottom > 0);
+}
+addEventListener("scroll", updateSticky, { passive: true });
+addEventListener("resize", updateSticky);
+updateSticky();
 
 // 受付番号: SK-日付(yyMMdd)-ランダム4桁（例: SK-261019-4821）
 function receiptNo() {
