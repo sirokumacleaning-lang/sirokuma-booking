@@ -202,7 +202,7 @@ document.getElementById("dates").innerHTML = ["第一","第二","第三"].map((n
   <div class="pair">
     <div><label class="f">作業日${n}希望<span class="req">必須</span></label>
       <input type="date" name="date${i+1}" min="${tomorrow}" required></div>
-    <div><label class="f">${n}希望時間<span class="req">必須</span></label>
+    <div><label class="f">${n}希望時間（到着時間）<span class="req">必須</span></label>
       <select name="time${i+1}" required><option value="">選択</option>${CONFIG.TIMES.map(t => `<option>${t}</option>`).join("")}</select></div>
   </div>`).join("");
 
